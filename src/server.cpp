@@ -8,6 +8,8 @@
 #include "atlas/http/server/install_static_file.hpp"
 #include "atlas/http/server/static_file.hpp"
 #include "atlas/http/server/static_files.hpp"
+#include "atlas/http/server/static_files.hpp"
+#include "atlas/http/server/static_text.hpp"
 #include "atlas/jsonrpc/uri.hpp"
 #include "atlas/log/log.hpp"
 
@@ -16,6 +18,18 @@
 //#include "api/api.hpp"
 #include "apollo/db.hpp"
 #include "helios/db/create.hpp"
+
+#define ABACUS_DECLARE_STATIC_STRING(PREFIX) \
+    extern "C" { \
+        extern char abacus_binary_##PREFIX##_start; \
+        extern char abacus_binary_##PREFIX##_end; \
+        extern size_t abacus_binary_##PREFIX##_size; \
+    }
+
+#define ABACUS_STATIC_STD_STRING(PREFIX) \
+    std::string(&abacus_binary_##PREFIX##_start, &abacus_binary_##PREFIX##_end)
+
+ABACUS_DECLARE_STATIC_STRING(index_html)
 
 abacus::server::server(
         const server::options& options,
@@ -42,6 +56,33 @@ abacus::server::server(
 
     m_helios_connection.reset(new hades::connection(options.helios_db_file));
     helios::db::create(*m_helios_connection);
+
+    m_http_server.router().install(
+            atlas::http::matcher("/", "GET"),
+            boost::bind(
+                &atlas::http::static_text,
+                m_mime_information->content_type("html"),
+                ABACUS_STATIC_STD_STRING(index_html),
+                _1,
+                _2,
+                _3,
+                _4
+                )
+            );
+
+    m_http_server.router().install(
+            atlas::http::matcher("/index.html", "GET"),
+            boost::bind(
+                &atlas::http::static_text,
+                m_mime_information->content_type("html"),
+                ABACUS_STATIC_STD_STRING(index_html),
+                _1,
+                _2,
+                _3,
+                _4
+                )
+            );
+
 
     boost::shared_ptr<atlas::http::router> apollo_router(new apollo::router(*m_apollo_connection));
     m_http_server.router().install(

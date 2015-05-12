@@ -35,10 +35,13 @@ add_subdirectory(apollo)
 # Helios components
 add_subdirectory(helios)
 
+add_subdirectory(web)
+
 # Abacus components
 add_subdirectory(src)
 
 add_executable(abacus src/main/abacus.cpp)
+add_dependencies(abacus-server-lib abacus-web)
 target_link_libraries(
     abacus
     abacus-server-lib
