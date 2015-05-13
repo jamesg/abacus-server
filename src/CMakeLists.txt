@@ -4,6 +4,7 @@ target_link_libraries(
     abacus-server-lib
     ${CMAKE_CURRENT_BINARY_DIR}/../web/static.a
     apollo-server-lib
+    chronos-server-lib
     helios-server-lib
     )
 

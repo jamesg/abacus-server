@@ -28,7 +28,9 @@ namespace abacus
         struct options
         {
             std::string address;
+            std::string db_file;
             std::string apollo_db_file;
+            std::string chronos_db_file;
             std::string helios_db_file;
             std::string port;
             options() :
@@ -47,6 +49,7 @@ namespace abacus
         boost::shared_ptr<boost::asio::io_service> m_io;
 
         boost::scoped_ptr<hades::connection> m_apollo_connection;
+        boost::scoped_ptr<hades::connection> m_chronos_connection;
         boost::scoped_ptr<hades::connection> m_helios_connection;
         atlas::http::server m_http_server;
         boost::scoped_ptr<atlas::http::mimetypes> m_mime_information;
