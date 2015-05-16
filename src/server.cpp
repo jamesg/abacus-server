@@ -8,7 +8,6 @@
 #include "atlas/http/server/install_static_file.hpp"
 #include "atlas/http/server/static_file.hpp"
 #include "atlas/http/server/static_files.hpp"
-#include "atlas/http/server/static_files.hpp"
 #include "atlas/http/server/static_text.hpp"
 #include "atlas/log/log.hpp"
 
