@@ -17,6 +17,7 @@ include_directories("hades/lib/sqlite3/include")
 include_directories("src")
 include_directories("apollo/include")
 include_directories("chronos/include")
+include_directories("demeter/include")
 include_directories("helios/include")
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${ImageMagick_INCLUDE_DIRS})
@@ -36,6 +37,9 @@ add_subdirectory(apollo)
 # Chronos components
 add_subdirectory(chronos)
 
+# Demeter components
+add_subdirectory(demeter)
+
 # Helios components
 add_subdirectory(helios)
 
@@ -50,4 +54,3 @@ target_link_libraries(
     abacus
     abacus-server-lib
     )
-

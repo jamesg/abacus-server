@@ -80,27 +80,27 @@ abacus::server::server(
 
 
     boost::shared_ptr<atlas::http::router>
-        apollo_router(new apollo::router(*m_connection));
+        apollo_router(new apollo::router(m_io, *m_connection));
     m_http_server.router().install(
         atlas::http::matcher("/apollo(.*)", 1),
         boost::bind(&atlas::http::router::serve, apollo_router, _1, _2, _3, _4)
         );
 
     boost::shared_ptr<atlas::http::router>
-        chronos_router(new chronos::router(*m_connection));
+        chronos_router(new chronos::router(m_io, *m_connection));
     m_http_server.router().install(
         atlas::http::matcher("/chronos(.*)", 1),
         boost::bind(&atlas::http::router::serve, chronos_router, _1, _2, _3, _4)
         );
 
     boost::shared_ptr<atlas::http::router>
-        helios_router(new helios::router(*m_connection, m_io));
+        helios_router(new helios::router(m_io, *m_connection));
     m_http_server.router().install(
         atlas::http::matcher("/helios(.*)", 1),
         boost::bind(&atlas::http::router::serve, helios_router, _1, _2, _3, _4)
         );
 
-    boost::shared_ptr<atlas::http::router> atlas_router(atlas::http::static_files());
+    boost::shared_ptr<atlas::http::router> atlas_router(atlas::http::static_files(m_io));
     m_http_server.router().install(
         atlas::http::matcher("/atlas(.*)"),
         boost::bind(&atlas::http::router::serve, atlas_router, _1, _2, _3, _4)
@@ -127,4 +127,3 @@ boost::shared_ptr<boost::asio::io_service> abacus::server::io()
 {
     return m_io;
 }
-
