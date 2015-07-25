@@ -16,3 +16,6 @@
 [submodule "chronos"]
 	path = chronos
 	url = oak-git:~/projects/chronos.git
+[submodule "demeter"]
+	path = demeter
+	url = oak-git:~/projects/demeter.git
