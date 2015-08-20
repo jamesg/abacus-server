@@ -11,11 +11,13 @@
 #include "atlas/http/server/static_text.hpp"
 #include "atlas/log/log.hpp"
 
-#include "apollo/router.hpp"
-#include "chronos/router.hpp"
-#include "helios/router.hpp"
 #include "apollo/db.hpp"
+#include "apollo/router.hpp"
 #include "chronos/db.hpp"
+#include "chronos/router.hpp"
+#include "demeter/db.hpp"
+#include "demeter/router.hpp"
+#include "helios/router.hpp"
 #include "helios/db/create.hpp"
 
 #define ABACUS_DECLARE_STATIC_STRING(PREFIX) \
@@ -50,6 +52,7 @@ abacus::server::server(
     m_connection.reset(new hades::connection(options.db_file));
     apollo::db::create(*m_connection);
     chronos::db::create(*m_connection);
+    demeter::db::create(*m_connection);
     helios::db::create(*m_connection);
 
     m_http_server.router().install(
@@ -93,12 +96,19 @@ abacus::server::server(
         boost::bind(&atlas::http::router::serve, chronos_router, _1, _2, _3, _4)
         );
 
-    boost::shared_ptr<atlas::http::router>
-        helios_router(new helios::router(m_io, *m_connection));
-    m_http_server.router().install(
-        atlas::http::matcher("/helios(.*)", 1),
-        boost::bind(&atlas::http::router::serve, helios_router, _1, _2, _3, _4)
-        );
+        boost::shared_ptr<atlas::http::router>
+            helios_router(new helios::router(m_io, *m_connection));
+        m_http_server.router().install(
+            atlas::http::matcher("/helios(.*)", 1),
+            boost::bind(&atlas::http::router::serve, helios_router, _1, _2, _3, _4)
+            );
+
+        boost::shared_ptr<atlas::http::router>
+            demeter_router(new demeter::router(m_io, *m_connection));
+        m_http_server.router().install(
+            atlas::http::matcher("/demeter(.*)", 1),
+            boost::bind(&atlas::http::router::serve, demeter_router, _1, _2, _3, _4)
+            );
 
     boost::shared_ptr<atlas::http::router> atlas_router(atlas::http::static_files(m_io));
     m_http_server.router().install(

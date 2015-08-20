@@ -5,6 +5,6 @@ target_link_libraries(
     ${CMAKE_CURRENT_BINARY_DIR}/../web/static.a
     apollo-server-lib
     chronos-server-lib
+    demeter-server-lib
     helios-server-lib
     )
-
