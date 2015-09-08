@@ -1,21 +1,21 @@
 [submodule "atlas"]
 	path = atlas
-	url = oak-git:~/projects/atlas.git
+	url = ../atlas.git
 [submodule "commandline"]
 	path = commandline
-	url = oak-git:~/projects/commandline.git
+	url = ../commandline.git
 [submodule "hades"]
 	path = hades
-	url = oak-git:~/projects/hades.git
+	url = ../hades.git
 [submodule "apollo"]
 	path = apollo
-	url = oak-git:~/projects/apollo.git
+	url = ../apollo.git
 [submodule "helios"]
 	path = helios
-	url = oak-git:~/projects/helios.git
+	url = ../helios.git
 [submodule "chronos"]
 	path = chronos
-	url = oak-git:~/projects/chronos.git
+	url = ../chronos.git
 [submodule "demeter"]
 	path = demeter
-	url = oak-git:~/projects/demeter.git
+	url = ../demeter.git
